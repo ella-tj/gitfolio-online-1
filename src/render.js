@@ -22,7 +22,7 @@ const renderInfo = async (info, args = {}) => {
     const repos = user.repositories.nodes
     for (let i = 0; i < repos.length; i++) {
       stars += repos[i].stargazers.totalCount
-      isFork = repos[i].isFork
+      const isFork = repos[i].isFork
       let element
       if (isFork == false) {
         element = document.getElementById('work_section')
@@ -78,7 +78,7 @@ const renderInfo = async (info, args = {}) => {
     document.getElementById('profile_img').style.background = `url('${user.avatarUrl}') center center`
     document.getElementById('username').innerHTML = `<span style="display:${
       user.name == null || !user.name ? 'none' : 'block'
-    };">${user.name}</span><a href="${user.url}">@${user.login}</a>`
+    };">${user.name || ''}</span><a href="${user.url}">@${user.login}</a>`
     document.getElementById('userbio').innerHTML = user.bioHTML
     document.getElementById('userbio').style.display = user.bioHTML == null || !user.bioHTML ? 'none' : 'block'
     document.getElementById('about').innerHTML = `
@@ -93,16 +93,16 @@ const renderInfo = async (info, args = {}) => {
               )} commits</span>
               <span style="display:${
                 user.company == null || !user.company ? 'none' : 'block'
-              };"><i class="fas fa-building"></i> &nbsp; ${user.company}</span>
+              };"><i class="fas fa-building"></i> &nbsp; ${user.company || ''}</span>
               <span style="display:${
                 user.email == null || !user.email ? 'none' : 'block'
-              };"><i class="fas fa-envelope"></i> &nbsp; ${user.email}</span>
+              };"><i class="fas fa-envelope"></i> &nbsp; ${user.email || ''}</span>
               <span style="display:${
                 user.websiteUrl == null || !user.websiteUrl ? 'none' : 'block'
-              };"><i class="fas fa-link"></i> &nbsp; <a href="${user.websiteUrl}">${user.websiteUrl}</a></span>
+              };"><i class="fas fa-link"></i> &nbsp; <a href="${user.websiteUrl || ''}">${user.websiteUrl || ''}</a></span>
               <span style="display:${
                 user.location == null || !user.location ? 'none' : 'block'
-              };"><i class="fas fa-map-marker-alt"></i> &nbsp; ${user.location}</span>
+              };"><i class="fas fa-map-marker-alt"></i> &nbsp; ${user.location || ''}</span>
               <span style="display:${
                 user.isHireable == false || !user.isHireable ? 'none' : 'block'
               };"><i class="fas fa-user-tie"></i> &nbsp; Available for hire</span>

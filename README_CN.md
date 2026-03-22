@@ -101,6 +101,7 @@ https://gitfolio-online.vercel.app/u/{username}
 ```
 https://gitfolio-online.vercel.app/u/{username}?theme=dark
 https://gitfolio-online.vercel.app/u/{username}?theme=light
+https://gitfolio-online.vercel.app/u/{username}?theme=dracula
 ```
 
 ### 包含/排除 Fork 仓库
@@ -117,7 +118,7 @@ https://gitfolio-online.vercel.app/u/{username}?includeFork=false
 | 参数            | 类型    | 说明                 | 默认值  | 示例             |
 | --------------- | ------- | -------------------- | ------- | ---------------- |
 | `username`      | string  | GitHub 用户名        | -       | `wangningkai`    |
-| `theme`         | string  | 内置主题名称         | `dark`  | `dark`, `light`  |
+| `theme`         | string  | 内置主题名称         | `dark`  | `dark`, `light`, `dracula`  |
 | `includeFork`   | boolean | 是否显示 fork 的仓库 | `false` | `true`, `false`  |
 | `repoNum`       | number  | 显示的仓库数量       | `30`    | `10`, `20`, `50` |
 | `cache_seconds` | number  | 缓存时长（秒）       | `1800`  | `600`, `3600`    |
@@ -167,10 +168,13 @@ npm install
 创建 `.env` 文件：
 
 ```env
-# GitHub Personal Access Token（可选）
-GITHUB_TOKEN=你的_github_token_这里
+# GitHub Personal Access Token（必须，用于调用 GitHub GraphQL API）
+PAT_1=你的_github_token_这里
 
-# 自定义缓存时长（秒，可选）
+# 可选：额外的 token，触发限速时自动轮换（支持 PAT_1 ~ PAT_8）
+# PAT_2=你的第二个_token
+
+# 自定义缓存时长（秒，可选，范围 30min~24h）
 CACHE_SECONDS=1800
 ```
 
@@ -185,16 +189,6 @@ PORT=3000 npm run dev
 ```
 
 访问 `http://localhost:3000/u/{username}` 查看你的作品集。
-
-### 生产构建
-
-```bash
-# 构建项目
-npm run build
-
-# 启动生产服务器
-npm start
-```
 
 ---
 
@@ -308,7 +302,7 @@ GPL-3.0 许可证 - 查看 [LICENSE](LICENSE) 了解详情。
 
 - 灵感来源于原版 [Gitfolio](https://github.com/imfunniee/gitfolio) 项目
 - 使用 [Vercel](https://vercel.com) 构建
-- 由 [GitHub REST API](https://docs.github.com/en/rest) 提供支持
+- 由 [GitHub GraphQL API](https://docs.github.com/en/graphql) 提供支持
 
 ---
 

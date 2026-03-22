@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins&family=Questrial&display=swap" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/wangningkai/gitfolio-online/assets/index.min.css" />
@@ -51,7 +55,6 @@
         <a href="https://github.com/wangningkai" target="_blank">made on earth by a human</a>
       </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/jquery@4.0.0/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/magic-grid@3.2.4/dist/magic-grid.min.js"></script>
     <script type="text/javascript">
       setTimeout(function () {
@@ -84,7 +87,7 @@
         maxColumns: window.innerWidth <= 800 ? 1 : 2,
         useTransform: true,
       })
-      $(function () {
+      document.addEventListener('DOMContentLoaded', function () {
         magicProjectsGrid.listen()
         magicForksGrid.listen()
       })
