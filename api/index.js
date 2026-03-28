@@ -2,13 +2,10 @@ const fetchInfo = require('../src/fetch')
 const renderInfo = require('../src/render')
 const { renderError, clampValue, parseBoolean, CONSTANTS } = require('../src/utils')
 
-const ALLOWED_THEMES = new Set(['dark', 'light', 'dracula'])
-
 module.exports = async (req, res) => {
   const { username, theme, includeFork, cache_seconds, repoNum } = req.query
 
   const parsedRepoNum = clampValue(parseInt(repoNum || 30, 10) || 30, 1, 100)
-  const themeType = ALLOWED_THEMES.has(theme) ? theme : 'dark'
 
   let info
   try {
@@ -31,7 +28,7 @@ module.exports = async (req, res) => {
   )
 
   try {
-    const value = await renderInfo(info, { theme: themeType, includeFork: parseBoolean(includeFork) })
+    const value = await renderInfo(info, { theme, includeFork: parseBoolean(includeFork) })
     res.send(value)
   } catch (err) {
     res.status(500)
