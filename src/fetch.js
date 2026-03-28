@@ -3,6 +3,8 @@ const retryer = require('./retryer')
 const githubUsernameRegex = require('github-username-regex')
 const axios = require('axios')
 
+const TOTAL_COMMITS_TIMEOUT_MS = 1500
+
 const fetcher = (variables, token) => {
   return request(
     {
@@ -86,6 +88,7 @@ const totalCommitsFetcher = async (username) => {
     return axios({
       method: 'get',
       url: `https://api.github.com/search/commits?q=author:${variables.login}`,
+      timeout: TOTAL_COMMITS_TIMEOUT_MS,
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/vnd.github.cloak-preview',
@@ -111,13 +114,17 @@ const totalCommitsFetcher = async (username) => {
 const fetchInfo = async (username, repoNum) => {
   if (!username) throw Error('Invalid username')
   const numRepoNum = repoNum ? Number(repoNum) : 30
+  const totalCommitsPromise = Promise.race([
+    totalCommitsFetcher(username),
+    new Promise((resolve) => setTimeout(() => resolve(0), TOTAL_COMMITS_TIMEOUT_MS)),
+  ])
 
   const [res, experimentalTotalCommits] = await Promise.all([
     retryer(fetcher, {
       username: username,
       repo_num: numRepoNum,
     }),
-    totalCommitsFetcher(username),
+    totalCommitsPromise,
   ])
 
   if (res.data.errors) {
