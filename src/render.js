@@ -8,6 +8,7 @@ const { kFormatter, renderGithub, escapeHtml, sanitizeUrl } = require('../src/ut
 const ROOT_DIR = path.resolve(__dirname, '..')
 const ASSET_DIR = path.resolve(`${ROOT_DIR}/assets/`)
 const TEMPLATE_PATH = path.resolve(ASSET_DIR, 'index.html')
+const LAYOUT_CSS_PATH = path.resolve(ASSET_DIR, 'index.css')
 const THEME_DIR = path.join(ASSET_DIR, 'themes')
 const BACKGROUND_IMAGE = 'https://cdn.jsdelivr.net/gh/WangNingkai/BingImageApi@latest/images/latest.png'
 const AVAILABLE_THEMES = new Set(
@@ -18,7 +19,15 @@ const AVAILABLE_THEMES = new Set(
 )
 
 let cachedTemplateHtml = null
+let cachedLayoutCss = null
 const themeTemplateCache = new Map()
+
+const getLayoutCss = () => {
+  if (!cachedLayoutCss) {
+    cachedLayoutCss = fs.readFileSync(LAYOUT_CSS_PATH, 'utf-8')
+  }
+  return cachedLayoutCss
+}
 
 const getTemplateHtml = () => {
   if (!cachedTemplateHtml) {
@@ -107,7 +116,12 @@ const renderInfo = async (info, args = {}) => {
     icon.setAttribute('href', user.avatarUrl)
     icon.setAttribute('type', 'image/png')
 
+    const layoutStyle = document.createElement('style')
+    layoutStyle.type = 'text/css'
+    layoutStyle.innerHTML = getLayoutCss()
+
     document.getElementsByTagName('head')[0].appendChild(icon)
+    document.getElementsByTagName('head')[0].appendChild(layoutStyle)
     document.getElementsByTagName('head')[0].appendChild(style)
     document.getElementById('github').innerHTML = renderGithub(user.url, activeTheme)
     document.getElementById('profile_img').style.background = `url('${user.avatarUrl}') center center`

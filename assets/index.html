@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins&family=Questrial&display=swap" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/wangningkai/gitfolio-online/assets/index.min.css" />
   </head>
 
   <body>
@@ -55,7 +54,6 @@
         <a href="https://github.com/wangningkai" target="_blank">made on earth by a human</a>
       </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/magic-grid@3.2.4/dist/magic-grid.min.js"></script>
     <script type="text/javascript">
       setTimeout(function () {
         document.getElementById('loading').classList.add('animated')
@@ -66,31 +64,6 @@
           document.getElementById('loading').style.display = 'none'
         }, 600)
       }, 600)
-    </script>
-
-    <script>
-      const magicProjectsGrid = new MagicGrid({
-        container: '#work_section',
-        animate: false,
-        gutter: 30,
-        static: true,
-        useMin: false,
-        maxColumns: window.innerWidth <= 800 ? 1 : 2,
-        useTransform: true,
-      })
-      const magicForksGrid = new MagicGrid({
-        container: '#forks_section',
-        animate: false,
-        gutter: 30,
-        static: true,
-        useMin: false,
-        maxColumns: window.innerWidth <= 800 ? 1 : 2,
-        useTransform: true,
-      })
-      document.addEventListener('DOMContentLoaded', function () {
-        magicProjectsGrid.listen()
-        magicForksGrid.listen()
-      })
     </script>
   </body>
 </html>
