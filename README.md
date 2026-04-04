@@ -48,6 +48,49 @@ Perfect for developers, open-source contributors, and anyone who wants a profess
 
 ---
 
+## Tech Stack
+
+- **Runtime**: Node.js 12+
+- **Template Engine**: Handlebars
+- **HTTP Client**: Axios
+- **DOM Parser**: jsdom
+- **HTML Minifier**: html-minifier-terser
+- **Testing**: Jest
+- **Code Style**: Prettier + ESLint
+- **Deployment**: Vercel
+
+---
+
+## Project Structure
+
+```
+gitfolio-online/
+├── api/                # Vercel serverless function
+│   └── index.js        # Main API endpoint
+├── assets/             # Static assets
+│   ├── index.html      # Base HTML template
+│   ├── index.css       # Global styles
+│   └── themes/         # Theme CSS files
+│       ├── dark.css
+│       ├── light.css
+│       ├── auto.css    # Auto-follow system theme
+│       └── dracula.css
+├── src/                # Core modules
+│   ├── fetch.js        # GitHub GraphQL API fetcher
+│   ├── render.js       # Handlebars template renderer
+│   ├── retryer.js      # Token rotation & retry logic
+│   └── utils.js        # Utility functions
+├── scripts/            # Development scripts
+│   └── server.js       # Local dev server
+├── tests/              # Test files
+│   └── render.test.js
+├── .env.example        # Environment variable template
+├── package.json        # Project configuration
+└── vercel.json         # Vercel deployment config
+```
+
+---
+
 ## Quick Start
 
 Get your portfolio up and running in **30 seconds**:
@@ -68,7 +111,7 @@ That's it! 🎉
 
 ### 🎨 **Multiple Themes**
 
-Switch between light and dark themes with a single URL parameter.
+Switch between light, dark, auto, and dracula themes with a single URL parameter. The `auto` theme automatically follows your system's color scheme preference.
 
 ### 🔄 **Real-time Updates**
 
@@ -101,6 +144,8 @@ Switch between built-in themes:
 ```
 https://gitfolio-online.vercel.app/u/{username}?theme=dark
 https://gitfolio-online.vercel.app/u/{username}?theme=light
+https://gitfolio-online.vercel.app/u/{username}?theme=auto     # Follows system preference
+https://gitfolio-online.vercel.app/u/{username}?theme=dracula  # Dracula color scheme
 ```
 
 ### Include/Exclude Forks
@@ -114,13 +159,13 @@ https://gitfolio-online.vercel.app/u/{username}?includeFork=false
 
 ### All Parameters
 
-| Parameter       | Type    | Description                       | Default | Example          |
-| --------------- | ------- | --------------------------------- | ------- | ---------------- |
-| `username`      | string  | Your GitHub username              | -       | `wangningkai`    |
-| `theme`         | string  | Built-in theme name               | `dark`  | `dark`, `light`  |
-| `includeFork`   | boolean | Display forked repositories       | `false` | `true`, `false`  |
-| `repoNum`       | number  | Number of repositories to display | `30`    | `10`, `20`, `50` |
-| `cache_seconds` | number  | Cache duration in seconds         | `1800`  | `600`, `3600`    |
+| Parameter       | Type    | Description                       | Default | Example                      |
+| --------------- | ------- | --------------------------------- | ------- | ---------------------------- |
+| `username`      | string  | Your GitHub username              | -       | `wangningkai`                |
+| `theme`         | string  | Built-in theme name               | `dark`  | `dark`, `light`, `auto`, `dracula` |
+| `includeFork`   | boolean | Display forked repositories       | `false` | `true`, `false`              |
+| `repoNum`       | number  | Number of repositories to display | `30`    | `10`, `20`, `50`             |
+| `cache_seconds` | number  | Cache duration in seconds         | `1800`  | `600`, `3600`                |
 
 ### Example Combinations
 
@@ -149,7 +194,7 @@ Want to run Gitfolio locally? Follow these steps:
 ### Prerequisites
 
 - Node.js 12+
-- GitHub Personal Access Token (optional, but recommended for higher API limits)
+- GitHub Personal Access Token (required for GitHub GraphQL API)
 
 ### Installation
 
@@ -159,25 +204,36 @@ git clone https://github.com/wangningkai/gitfolio-online.git
 cd gitfolio-online
 
 # Install dependencies
+pnpm install
+# or
 npm install
 ```
 
 ### Configuration
 
-Create a `.env` file:
+Create a `.env` file based on `.env.example`:
 
 ```env
-# GitHub Personal Access Token (optional)
-GITHUB_TOKEN=your_github_token_here
+# GitHub Personal Access Token (required for GitHub GraphQL API)
+# Create one at https://github.com/settings/tokens
+# Scopes needed: none (for public repos) or 'repo' (for private repos)
+PAT_1=your_github_token_here
 
-# Custom cache duration (seconds, optional)
+# Optional: Additional tokens for rate limit rotation (supports PAT_1 ~ PAT_8)
+# When rate limit is hit, the system automatically rotates to the next token
+# PAT_2=your_second_token_here
+# PAT_3=your_third_token_here
+
+# Custom cache duration in seconds (optional, range: 30min~24h)
 CACHE_SECONDS=1800
 ```
 
 ### Running Locally
 
 ```bash
-# Start the development server
+# Start the development server with hot reload
+pnpm dev
+# or
 npm run dev
 
 # Or start with specific port
@@ -186,14 +242,16 @@ PORT=3000 npm run dev
 
 Visit `http://localhost:3000/u/{username}` to see your portfolio.
 
-### Build for Production
+### Running Tests
 
 ```bash
-# Build the project
-npm run build
+# Run all tests
+pnpm test
+# or
+npm test
 
-# Start production server
-npm start
+# Run tests with watch mode
+pnpm test -- --watch
 ```
 
 ---
@@ -233,7 +291,11 @@ The GitHub API has rate limits (5,000 requests/hour). If many users share the sa
 
 ### Can I use my own custom theme?
 
-Currently, Gitfolio supports built-in light/dark themes. Custom theme support is planned for future releases.
+Currently, Gitfolio supports built-in light/dark/auto/dracula themes. Custom theme support is planned for future releases.
+
+### How does the auto theme work?
+
+The `auto` theme detects your system's color scheme preference (light or dark) and automatically applies the matching theme. This works on all modern browsers that support `prefers-color-scheme` media query.
 
 ### How do I update my portfolio?
 
@@ -246,6 +308,10 @@ Yes, by default Gitfolio displays up to 30 repositories. You can adjust this wit
 ### Can I hide specific repositories?
 
 Currently, you can only show/hide all forks. Selective repository hiding is planned for future releases.
+
+### How does token rotation work?
+
+If you provide multiple tokens (PAT_1 through PAT_8), Gitfolio will automatically rotate to the next token when one hits the GitHub API rate limit, ensuring uninterrupted service.
 
 ---
 
@@ -308,7 +374,7 @@ GPL-3.0 License - see [LICENSE](LICENSE) for details.
 
 - Inspired by the original [Gitfolio](https://github.com/imfunniee/gitfolio) project
 - Built with [Vercel](https://vercel.com)
-- Powered by [GitHub REST API](https://docs.github.com/en/rest)
+- Powered by [GitHub GraphQL API](https://docs.github.com/en/graphql)
 
 ---
 
