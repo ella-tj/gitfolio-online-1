@@ -1,16 +1,15 @@
 :root {
-  --bg-color: #fff;
-  --text-color: rgb(10, 10, 10);
-  --background-image: linear-gradient(90deg, rgba(10, 10, 10, 0.4), rgb(10, 10, 10, 0.4)),
+  --bg-color: #fafafa;
+  --text-color: #1a1a1a;
+  --card-bg: rgba(0, 0, 0, 0.02);
+  --card-border: rgba(0, 0, 0, 0.06);
+  --background-image: linear-gradient(135deg, rgba(26, 26, 26, 0.85), rgba(26, 26, 26, 0.75)),
     url('{{{background}}}');
-  --background-background: #fff;
 }
 
 @media (max-width: 800px) {
   :root {
-    --background-image: linear-gradient(0deg,
-        rgba(255, 255, 255, 1),
-        rgba(255, 255, 255, 0)),
+    --background-image: linear-gradient(180deg, rgba(26, 26, 26, 0.9), rgba(26, 26, 26, 0.4)),
       url('{{{background}}}') !important;
   }
 }

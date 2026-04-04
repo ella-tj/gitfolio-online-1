@@ -37,7 +37,7 @@ const getTemplateHtml = () => {
 }
 
 const resolveTheme = (theme) => {
-  return AVAILABLE_THEMES.has(theme) ? theme : 'dark'
+  return AVAILABLE_THEMES.has(theme) ? theme : 'auto'
 }
 
 const getThemeTemplate = (theme) => {
