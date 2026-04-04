@@ -44,7 +44,7 @@ describe('renderInfo', () => {
     expect(html).toContain('repo1')
     expect(html).not.toContain('fork1')
     // Check for dark theme specific style
-    expect(html).toContain('--bg-color:rgb(10, 10, 10)')
+    expect(html).toContain('--bg-color:#0a0a0a')
   })
 
   it('should include forks when includeFork is true', async () => {
@@ -52,7 +52,7 @@ describe('renderInfo', () => {
     expect(html).toContain('repo1')
     expect(html).toContain('fork1')
     // Check for light theme specific style
-    expect(html).toContain('--bg-color:#fff')
+    expect(html).toContain('--bg-color:#fafafa')
   })
 
   it('should handle missing optional fields', async () => {

@@ -1,7 +1,7 @@
 const path = require('path')
 const hbs = require('handlebars')
 const fs = require('fs')
-const minify = require('html-minifier').minify
+const minify = require('html-minifier-terser').minify
 const { JSDOM } = require('jsdom')
 const { kFormatter, renderGithub, escapeHtml, sanitizeUrl } = require('../src/utils')
 
