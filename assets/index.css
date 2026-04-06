@@ -122,10 +122,11 @@ body {
 .skeleton-card {
   width: 100%;
   height: 160px;
-  border-radius: 12px;
+  border-radius: 16px;
   background: linear-gradient(90deg, rgba(128,128,128,0.06) 25%, rgba(128,128,128,0.12) 50%, rgba(128,128,128,0.06) 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
+  border: 1px solid rgba(128, 128, 128, 0.08);
 }
 
 @keyframes shimmer {
@@ -288,19 +289,69 @@ body {
   padding: 20px 24px;
   display: flex;
   flex-direction: column;
-  border-radius: 12px;
+  border-radius: 16px;
   background: var(--card-bg, rgba(128, 128, 128, 0.04));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   color: var(--text-color);
   border: 1px solid var(--card-border, rgba(128, 128, 128, 0.08));
-  transition: all 0.25s ease;
+  position: relative;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   transform: translateY(0);
+  overflow: hidden;
+}
+
+/* 微妙的内部光效 */
+.projects section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    transparent 50%,
+    transparent 100%
+  );
+  border-radius: 16px;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+
+/* hover 渐变光边效果 */
+.projects section::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 17px;
+  background: linear-gradient(
+    135deg,
+    rgba(99, 102, 241, 0.4) 0%,
+    rgba(168, 85, 247, 0.3) 50%,
+    rgba(236, 72, 153, 0.4) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+  z-index: -1;
 }
 
 .projects section:hover {
   cursor: pointer;
   border-color: transparent;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-  transform: translateY(-2px);
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.04),
+    0 12px 24px rgba(0, 0, 0, 0.08),
+    0 24px 48px rgba(99, 102, 241, 0.06);
+  transform: translateY(-4px);
+}
+
+.projects section:hover::before {
+  opacity: 1;
+}
+
+.projects section:hover::after {
+  opacity: 1;
 }
 
 .section_title {
@@ -309,6 +360,7 @@ body {
   margin: 0 0 10px 0;
   word-wrap: break-word;
   line-height: 1.4;
+  letter-spacing: -0.02em;
 }
 
 .about_section {
@@ -320,26 +372,49 @@ body {
   word-wrap: break-word;
   overflow: hidden;
   line-height: 1.6;
-  opacity: 0.75;
+  opacity: 0.7;
 }
 
 .bottom_section {
-  margin-top: 14px;
+  margin-top: 16px;
   font-size: 13px;
   display: flex;
-  gap: 18px;
-  opacity: 0.6;
+  gap: 14px;
+  opacity: 0.55;
 }
 
 .bottom_section span {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
   font-weight: 500;
+  padding: 4px 10px 4px 4px;
+  border-radius: 6px;
+  background: rgba(128, 128, 128, 0.06);
+  transition: background 0.2s ease;
+}
+
+.bottom_section span:hover {
+  background: rgba(128, 128, 128, 0.12);
 }
 
 .bottom_section span i {
-  font-size: 13px;
+  font-size: 12px;
+}
+
+/* Language Tag with Color Dot */
+.lang-tag {
+  font-weight: 500;
+}
+
+.lang-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 6px;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
 }
 
 /* Footer */
