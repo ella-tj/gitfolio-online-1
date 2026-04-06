@@ -294,60 +294,83 @@ body {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   color: var(--text-color);
-  border: 1px solid var(--card-border, rgba(128, 128, 128, 0.08));
   position: relative;
-  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   transform: translateY(0);
   overflow: hidden;
+  /* 多层边框 + 阴影效果 */
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.08),
+    inset 0 -1px 0 0 rgba(0, 0, 0, 0.02),
+    0 0 0 1px rgba(128, 128, 128, 0.08),
+    0 2px 8px rgba(0, 0, 0, 0.04),
+    0 4px 16px rgba(0, 0, 0, 0.02);
 }
 
-/* 微妙的内部光效 */
+/* 顶部内发光线 */
 .projects section::before {
   content: '';
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
   background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.08) 0%,
-    transparent 50%,
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.12) 20%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0.12) 80%,
     transparent 100%
   );
-  border-radius: 16px;
-  opacity: 0;
-  transition: opacity 0.35s ease;
+  opacity: 0.6;
+  transition: opacity 0.4s ease;
   pointer-events: none;
 }
 
-/* hover 渐变光边效果 */
+/* hover 渐变光边 + 底部光晕 */
 .projects section::after {
   content: '';
   position: absolute;
-  inset: -1px;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
   border-radius: 17px;
   background: linear-gradient(
     135deg,
-    rgba(99, 102, 241, 0.4) 0%,
-    rgba(168, 85, 247, 0.3) 50%,
-    rgba(236, 72, 153, 0.4) 100%
+    rgba(99, 102, 241, 0.35) 0%,
+    rgba(139, 92, 246, 0.25) 25%,
+    rgba(168, 85, 247, 0.2) 50%,
+    rgba(217, 70, 239, 0.25) 75%,
+    rgba(236, 72, 153, 0.35) 100%
   );
   opacity: 0;
-  transition: opacity 0.35s ease;
+  transition: opacity 0.4s ease;
   pointer-events: none;
   z-index: -1;
 }
 
 .projects section:hover {
   cursor: pointer;
-  border-color: transparent;
   box-shadow:
-    0 4px 6px rgba(0, 0, 0, 0.04),
-    0 12px 24px rgba(0, 0, 0, 0.08),
-    0 24px 48px rgba(99, 102, 241, 0.06);
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.1),
+    0 8px 16px rgba(0, 0, 0, 0.06),
+    0 16px 32px rgba(99, 102, 241, 0.08),
+    0 0 0 1px transparent;
   transform: translateY(-4px);
 }
 
 .projects section:hover::before {
   opacity: 1;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(99, 102, 241, 0.3) 20%,
+    rgba(168, 85, 247, 0.5) 50%,
+    rgba(236, 72, 153, 0.3) 80%,
+    transparent 100%
+  );
 }
 
 .projects section:hover::after {
@@ -480,6 +503,11 @@ body {
 
 /* Mobile Responsive */
 @media (max-width: 800px) {
+  #skeleton {
+    flex-direction: column;
+    align-items: center;
+  }
+
   .skeleton-profile,
   #profile {
     width: 100vw;
@@ -502,14 +530,25 @@ body {
   #display {
     width: 100vw;
     padding: 4vh 6vw;
-    padding-left: 6vw;
+    margin-left: 0;
     min-height: auto;
+    display: block;
   }
 
   .skeleton-grid,
   .projects {
     grid-template-columns: 1fr;
     gap: 16px;
+  }
+
+  /* 移动端卡片修复 */
+  .projects a {
+    display: block;
+  }
+
+  .projects section {
+    padding: 16px 18px;
+    min-height: auto;
   }
 
   .skeleton-card {
@@ -538,6 +577,24 @@ body {
 
   .bottom_section {
     font-size: 11px;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .bottom_section span {
+    padding: 3px 8px 3px 3px;
+    font-size: 11px;
+  }
+
+  .lang-tag {
+    flex-shrink: 0;
+  }
+
+  .lang-dot {
+    width: 8px;
+    height: 8px;
+    margin-right: 5px;
   }
 
   #about span {
