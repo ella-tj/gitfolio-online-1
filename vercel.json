@@ -1,16 +1,53 @@
 {
-    "version": 2,
-    "routes": [{
-            "src": "/",
-            "dest": "/api/index.js?username=wangningkai"
+  "version": 2,
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
         },
         {
-            "src": "/user/(?<username>[^/]*)",
-            "dest": "/api/index.js?username=$username"
+          "key": "X-Frame-Options",
+          "value": "DENY"
         },
         {
-            "src": "/u/(?<username>[^/]*)",
-            "dest": "/api/index.js?username=$username"
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
         }
-    ]
+      ]
+    },
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
+  ],
+  "routes": [
+    {
+      "src": "/",
+      "dest": "/api/index.js?username=wangningkai"
+    },
+    {
+      "src": "/user/(?<username>[^/]*)",
+      "dest": "/api/index.js?username=$username"
+    },
+    {
+      "src": "/u/(?<username>[^/]*)",
+      "dest": "/api/index.js?username=$username"
+    }
+  ]
 }
