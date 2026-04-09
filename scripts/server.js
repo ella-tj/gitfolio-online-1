@@ -3,7 +3,7 @@ const http = require('http')
 const url = require('url')
 const handler = require('../api/index')
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.SERVER_PORT || process.env.PORT || 4000
 
 // Check for GitHub Token
 if (!process.env.PAT_1) {

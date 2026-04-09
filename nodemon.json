@@ -1,0 +1,6 @@
+{
+  "watch": ["assets", "src", "api", ".env"],
+  "ext": "js,html,css,json",
+  "ignore": ["node_modules", "tests"],
+  "delay": "1000"
+}
