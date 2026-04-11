@@ -231,8 +231,9 @@ body {
   font-size: 14px;
   font-family: 'Questrial', sans-serif;
   opacity: 0.75;
-  text-align: center;
-  width: 100%;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 #about a,
@@ -249,16 +250,17 @@ body {
 }
 
 #about span {
-  margin: 0.8vh 0;
+  margin: 0.5vh 0;
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 8px;
 }
 
 #about span i {
   font-size: 14px;
-  width: 16px;
+  width: 18px;
+  text-align: center;
+  flex-shrink: 0;
 }
 
 /* Social Links */
