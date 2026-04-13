@@ -53,8 +53,6 @@ Perfect for developers, open-source contributors, and anyone who wants a profess
 - **Runtime**: Node.js 12+
 - **Template Engine**: Handlebars
 - **HTTP Client**: Axios
-- **DOM Parser**: jsdom
-- **HTML Minifier**: html-minifier-terser
 - **Testing**: Jest
 - **Code Style**: Prettier + ESLint
 - **Deployment**: Vercel
