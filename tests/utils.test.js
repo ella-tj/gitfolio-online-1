@@ -1,4 +1,12 @@
-const { escapeHtml, kFormatter, clampValue, parseBoolean, sanitizeUrl, CONSTANTS } = require('../src/utils')
+const {
+  escapeHtml,
+  kFormatter,
+  clampValue,
+  parseBoolean,
+  sanitizeUrl,
+  sanitizeHtml,
+  CONSTANTS,
+} = require('../src/utils')
 
 describe('utils', () => {
   describe('escapeHtml', () => {
@@ -104,10 +112,45 @@ describe('utils', () => {
     })
   })
 
+  describe('sanitizeHtml', () => {
+    it('should remove script tags', () => {
+      expect(sanitizeHtml('<script>alert(1)</script><p>hello</p>')).toBe('<p>hello</p>')
+    })
+
+    it('should remove iframe tags', () => {
+      expect(sanitizeHtml('<iframe src="evil"></iframe><p>safe</p>')).toBe('<p>safe</p>')
+    })
+
+    it('should remove event handlers', () => {
+      expect(sanitizeHtml('<img src="x" onerror="alert(1)">')).toBe('<img src="x">')
+    })
+
+    it('should remove javascript: URLs', () => {
+      expect(sanitizeHtml('<a href="javascript:alert(1)">click</a>')).toBe('<a>click</a>')
+      expect(sanitizeHtml('<a href="javascript:alert(1)">click</a>')).not.toContain('javascript:')
+    })
+
+    it('should remove data: URLs in href', () => {
+      expect(sanitizeHtml('<a href="data:text/html,<script>">click</a>')).toBe('<a>click</a>')
+      expect(sanitizeHtml('<a href="data:text/html,<script>">click</a>')).not.toContain('data:')
+    })
+
+    it('should pass through safe HTML', () => {
+      expect(sanitizeHtml('<p><strong>bold</strong> and <em>italic</em></p>')).toBe(
+        '<p><strong>bold</strong> and <em>italic</em></p>',
+      )
+    })
+
+    it('should handle empty and null values', () => {
+      expect(sanitizeHtml('')).toBe('')
+      expect(sanitizeHtml(null)).toBe('')
+      expect(sanitizeHtml(undefined)).toBe('')
+    })
+  })
+
   describe('CONSTANTS', () => {
     it('should have correct time constants', () => {
       expect(CONSTANTS.THIRTY_MINUTES).toBe(1800)
-      expect(CONSTANTS.TWO_HOURS).toBe(7200)
       expect(CONSTANTS.ONE_DAY).toBe(86400)
     })
   })

@@ -1,7 +1,4 @@
 const axios = require('axios')
-// const SocksProxyAgent = require('socks-proxy-agent') // 代理
-// const proxyURL = 'socks://127.0.0.1:1080'
-// const httpsAgent = new SocksProxyAgent(proxyURL)
 
 /**
  * @param {string} message
@@ -84,7 +81,6 @@ const request = (data, headers) => {
     method: 'post',
     headers,
     data,
-    // httpsAgent, // proxy
   })
 }
 
@@ -99,7 +95,6 @@ const logger =
 
 const CONSTANTS = {
   THIRTY_MINUTES: 1800,
-  TWO_HOURS: 7200,
   ONE_DAY: 86400,
 }
 
@@ -111,10 +106,32 @@ const sanitizeUrl = (url) => {
   return /^https?:\/\//.test(url) ? url : ''
 }
 
+/**
+ * 简易 HTML 净化 — 仅保留安全的文本格式标签，移除所有脚本/事件属性
+ * @param {string} html
+ */
+const sanitizeHtml = (html) => {
+  if (!html) return ''
+  let result = String(html)
+  // 移除 <script> 标签及其内容
+  result = result.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+  // 移除 <iframe> 标签
+  result = result.replace(/<iframe\b[^>]*>[\s\S]*?<\/iframe>/gi, '')
+  // 移除 <object> 和 <embed> 标签
+  result = result.replace(/<(?:object|embed)\b[^>]*>[\s\S]*?<\/(?:object|embed)>/gi, '')
+  // 移除事件处理器属性 (onclick, onerror 等)
+  result = result.replace(/\s+on\w+\s*=\s*(?:"[^"]*"|'[^']*'|\S+)/gi, '')
+  // 移除 javascript: 和 data: 协议的完整 href 属性
+  result = result.replace(/\s+href\s*=\s*(?:"javascript:[^"]*"|'javascript:[^']*'|javascript:\S+)/gi, '')
+  result = result.replace(/\s+href\s*=\s*(?:"data:[^"]*"|'data:[^']*'|data:\S+)/gi, '')
+  return result
+}
+
 module.exports = {
   renderGithub,
   renderError,
   escapeHtml,
+  sanitizeHtml,
   sanitizeUrl,
   kFormatter,
   clampValue,

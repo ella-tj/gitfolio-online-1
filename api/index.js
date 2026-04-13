@@ -1,9 +1,16 @@
 const fetchInfo = require('../src/fetch')
 const renderInfo = require('../src/render')
-const { renderError, clampValue, parseBoolean, CONSTANTS } = require('../src/utils')
+const { renderError, clampValue, parseBoolean, CONSTANTS, logger } = require('../src/utils')
+const githubUsernameRegex = require('github-username-regex')
 
 module.exports = async (req, res) => {
   const { username, theme, includeFork, cache_seconds, repoNum } = req.query
+
+  // Validate username format early
+  if (!username || !githubUsernameRegex.test(username)) {
+    res.status(400)
+    return res.send(renderError('Invalid username format'))
+  }
 
   const parsedRepoNum = clampValue(parseInt(repoNum || 30, 10) || 30, 1, 100)
 
@@ -28,9 +35,10 @@ module.exports = async (req, res) => {
   )
 
   try {
-    const value = await renderInfo(info, { theme, includeFork: parseBoolean(includeFork) })
+    const value = await renderInfo(info, { theme: theme || 'auto', includeFork: parseBoolean(includeFork) })
     res.send(value)
   } catch (err) {
+    logger.error('Render failed:', err.message)
     res.status(500)
     res.send(renderError(err.message))
   }

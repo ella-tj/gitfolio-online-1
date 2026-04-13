@@ -657,3 +657,37 @@ body {
     left: 6vw;
   }
 }
+
+/* Focus Styles — Keyboard Navigation */
+.projects section:focus-within {
+  outline: 2px solid var(--text-color);
+  outline-offset: 2px;
+}
+
+#profile a:focus,
+#footer a:focus {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Reduced Motion — Respect User Preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .skeleton-avatar,
+  .skeleton-name,
+  .skeleton-bio,
+  .skeleton-title,
+  .skeleton-card {
+    animation: none !important;
+    background-image: none !important;
+    background-color: rgba(128, 128, 128, 0.12) !important;
+  }
+}

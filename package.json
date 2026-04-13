@@ -7,7 +7,8 @@
     "start": "node scripts/server.js",
     "dev": "concurrently \"SERVER_PORT=4000 nodemon scripts/server.js\" \"browser-sync start --proxy 'localhost:4000' --port 3000 --files 'assets/**/*' --no-notify\"",
     "dev:server": "nodemon scripts/server.js",
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint src/ api/"
   },
   "author": {
     "name": "@wangningkai and community",
@@ -34,8 +35,7 @@
     "github-username-regex": "^1.0.0",
     "handlebars": "^4.7.6",
     "html-minifier-terser": "^7.2.0",
-    "jsdom": "^16.7.0",
-    "vercel": "^50.14.0"
+    "jsdom": "^16.7.0"
   },
   "devDependencies": {
     "@jest/globals": "^30.2.0",
@@ -50,6 +50,7 @@
     "jest-environment-jsdom": "^30.2.0",
     "nodemon": "^3.1.0",
     "prettier": "^3.8.1",
-    "socks-proxy-agent": "^8.0.5"
+    "socks-proxy-agent": "^8.0.5",
+    "vercel": "^50.14.0"
   }
 }

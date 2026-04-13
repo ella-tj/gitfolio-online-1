@@ -4,7 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title></title>
+    <title>GitHub Portfolio</title>
+    <meta name="description" content="A portfolio website showcasing your GitHub work and contributions." />
+    <meta property="og:type" content="profile" />
+    <meta property="og:title" content="GitHub Portfolio" />
+    <meta property="og:description" content="A portfolio website showcasing your GitHub work and contributions." />
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:title" content="GitHub Portfolio" />
+    <meta property="twitter:description" content="A portfolio website showcasing your GitHub work and contributions." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://cdn.jsdelivr.net" />
@@ -14,8 +21,8 @@
   </head>
 
   <body>
-    <div id="loading">
-      <div id="skeleton">
+    <div id="loading" role="status" aria-live="polite" aria-label="Loading portfolio content">
+      <div id="skeleton" aria-hidden="true">
         <div class="skeleton-profile">
           <div class="skeleton-avatar"></div>
           <div class="skeleton-name"></div>
@@ -33,7 +40,7 @@
       </div>
     </div>
     <div id="github"></div>
-    <div id="profile">
+    <div id="profile" role="region" aria-label="User profile">
       <div id="profile_img"></div>
       <div id="username">
         <div id="fullname"></div>
@@ -41,12 +48,12 @@
       <div id="userbio"></div>
       <div id="about"></div>
     </div>
-    <div id="display">
-      <div id="work">
+    <div id="display" role="main">
+      <div id="work" role="region" aria-label="Work projects">
         <h1>Work.</h1>
-        <div class="projects" id="work_section"></div>
+        <div class="projects" id="work_section" aria-live="polite"></div>
       </div>
-      <div id="forks" style="display: none">
+      <div id="forks" style="display: none" role="region" aria-label="Forked projects">
         <h1>Forks.</h1>
         <div class="projects" id="forks_section"></div>
       </div>
