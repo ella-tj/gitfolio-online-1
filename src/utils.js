@@ -84,14 +84,7 @@ const request = (data, headers) => {
   })
 }
 
-const fn = () => {}
-const logger =
-  process.env.NODE_ENV !== 'test'
-    ? console
-    : {
-        log: fn,
-        error: fn,
-      }
+const logger = process.env.NODE_ENV !== 'test' ? console : { log: () => {}, error: () => {} }
 
 const CONSTANTS = {
   THIRTY_MINUTES: 1800,
